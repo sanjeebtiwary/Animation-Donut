@@ -3,6 +3,7 @@
 #include <string.h>
 #include <windows.h>
 int main() {
+    void_sleep(int seconds);
     float A = 0, B = 0;
     float i, j;
     int k;
