@@ -6,7 +6,7 @@ int main() {
     char b[1760];
     printf("\x1b[2J");
     for(;;) {
-        memset(b,32,1760);
+        memset(b,37,1760);
         memset(z,0,7040);
         for(j=0; j < 6.28; j += 0.07) {
             for(i=0; i < 6.28; i += 0.02) {
@@ -20,7 +20,7 @@ int main() {
                 float l = cos(i);
                 float m = cos(B);
                 float n = sin(B);
-                float t = c * h * g - f * e;
+                float z = c * h * g - f * e;
                 int x = 40 + 30 * D * (l * h * m - t * n);
                 int y= 12 + 15 * D * (l * h * n + t * m);
                 int o = x + 80 * y;
