@@ -1,15 +1,18 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <GL/glu.h>
 
+#include <chrono>
 #include <cmath>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <thread>
 #include <vector>
 
-namespace fs = std::filesystem;
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 struct Controls {
     std::string mode = "auto";
@@ -30,8 +33,8 @@ std::string trim(const std::string& text) {
     return text.substr(start, end - start + 1);
 }
 
-void loadControls(const fs::path& path, Controls& controls) {
-    std::ifstream input(path);
+void loadControls(const std::string& path, Controls& controls) {
+    std::ifstream input(path.c_str());
     if (!input.is_open()) {
         return;
     }
@@ -130,18 +133,20 @@ void drawTorus(double rotation_x, double rotation_y, double rotation_z, double z
 }
 
 int main(int argc, char* argv[]) {
-    const fs::path project_root = fs::current_path();
-    const fs::path control_file = project_root / "Donut" / "donut_controls.txt";
+    const std::string project_root = ".";
+    const std::string control_file = project_root + "/Donut/donut_controls.txt";
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL init failed: " << SDL_GetError() << std::endl;
         return 1;
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+    SDL_GL_SetSwapInterval(1);
 
     SDL_Window* window = SDL_CreateWindow(
         "3D Donut Studio",
